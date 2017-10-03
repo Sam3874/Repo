@@ -1,0 +1,26 @@
+{
+    "commonLabels": {
+        "rows": "行",
+        "add": "新しい行を追加",
+        "remove": "最後の行を削除",
+        "reset": "リセットテーブル",
+        "RowNum": "行＃",
+        "Quantity": "量",
+        "quantityRequired": "数量は <strong>必須</strong>",
+        "Required": "必須",
+        "Justification": "正当化",
+        "justificationRequired": "正当化は <strong>必須</strong>",
+        "justificationMin": "正当化は少なくとも <strong>10</strong> 長い文字",
+        "Comments": "コメント",
+        "Date": "日付",
+        "DialogInput": "ダイアログ入力",
+        "Option": "オプション",
+        "dialogcontent": "ダイアログコンテンツ",
+        "dialogInputFor": "行番号のダイアログ入力：",
+        "cancel": "キャンセル",
+        "save": "セーブ",
+         "maxRows": "最大行に達しました",
+        "minRows": "あなたは最小行に達しました",
+        "gotit": "とった！"
+    }
+}

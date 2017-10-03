@@ -1,0 +1,129 @@
+<div fxLayout="column" style="width:100%;">
+    <md-toolbar color="primary">{{name}}</md-toolbar>
+    <md-card>
+        <form name="fmDynamicTable" novalidate ng-cloak>
+            <div fxLayout="column">
+                <div fxLayout>                    
+                    <md-select placeholder="Select Language" fxFlex="150px" 
+                        name="Language" [(ngModel)]="selectedLanguage" #Language="ngModel"
+                        (change)="setLang(selectedLanguage)" >
+                        <md-option *ngFor="let lang of languages" [value]="lang.code">{{ lang.text }}</md-option>                        
+                    </md-select>
+                </div>
+                <br>
+                <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center">
+                    <h5>{{ 'commonLabels.rows' | translate }} : {{db.templateData.length}}</h5>
+                    <section fxLayoutGap="10px">
+                        <button md-mini-fab title="{{ 'commonLabels.add' | translate }}" color="primary" (click)="updateTable('add')"><md-icon class="md-24" aria-label="add">add</md-icon></button>
+                        <button md-mini-fab color="white" title="{{ 'commonLabels.remove' | translate }}" type="submit" (click)="updateTable('remove')"><md-icon class="md-24" aria-label="remove">remove</md-icon></button>
+                        <button md-mini-fab color="white" title="{{ 'commonLabels.reset' | translate }}" type="submit" (click)="updateTable('reset')"><md-icon class="md-24" aria-label="refresh">refresh</md-icon></button>
+                    </section>
+                </div>
+                <!-- ============================== Table Start ============================== -->
+                <md-table #table [dataSource]="data">
+                    <ng-container *ngFor="let column of columns" mdColumnDef="{{column}}">
+                        <!-- ============== columns ============= -->
+                        <md-header-cell *mdHeaderCellDef fxFlex="150px">                            
+                            <h4> {{'commonLabels.' + column | translate}} </h4>
+                        </md-header-cell>
+                        <!-- ============== rows ============= -->
+                        <ng-container [ngSwitch]="column">
+                            <!-- Quantity -->
+                            <ng-container *ngSwitchCase="'Quantity'">
+                                <md-cell *mdCellDef="let item" fxFlex="150px">
+                                    <md-form-field fxLayout fxFlex="70px">
+                                        <input type="number" mdInput name="{{column + item.RowNum.toString()}}" placeholder="{{'commonLabels.' + column | translate}}" [(ngModel)]="item[column]">
+                                    </md-form-field>
+                                </md-cell>
+                            </ng-container>
+
+                            <!-- Required -->
+                            <ng-container *ngSwitchCase="'Required'">
+                                <md-cell *mdCellDef="let item" fxFlex="150px">
+                                    <md-slide-toggle color="primary" name="{{column + item.RowNum.toString()}}" [(ngModel)]="item[column]">
+                                    </md-slide-toggle>
+                                </md-cell>
+                            </ng-container>
+
+                            <!-- Justification -->
+                            <ng-container *ngSwitchCase="'Justification'">
+                                <md-cell *mdCellDef="let item" fxFlex="150px">                                    
+                                    <div fxLayout="column">                                      
+                                            <md-form-field fxLayout>
+                                                <textarea fxFlex="150px" [disabled]="!item.Required" mdInput name="{{column + item.RowNum.toString()}}" placeholder="{{'commonLabels.' + column | translate}}"
+                                                #Justification="ngModel" [(ngModel)]="item[column]" maxlength="128" minlength="10" rows="2" [required]="item.Required">
+                                                </textarea>
+                                            </md-form-field>
+                                            <div *ngIf="Justification.invalid && (Justification.dirty || Justification.touched)" class="validation">
+                                                <span *ngIf="Justification.errors.required" 
+                                                    [innerHTML]="'commonLabels.justificationRequired' | translate">
+                                                </span>
+                                                <span *ngIf="Justification.errors.minlength" 
+                                                    [innerHTML]="'commonLabels.justificationMin' | translate">                                                    
+                                                </span>                                            
+                                            </div>
+                                        </div>
+                                </md-cell>
+                            </ng-container>
+
+                            <!-- Comments -->
+                            <ng-container *ngSwitchCase="'Comments'">
+                                <md-cell *mdCellDef="let item" fxFlex="150px">
+                                    <md-form-field fxLayout>
+                                        <textarea fxFlex="150px" mdInput name="{{column + item.RowNum.toString()}}" #Comments id="{{Comments + item.RowNum}}" placeholder="{{'commonLabels.' + column | translate}}"
+                                            [(ngModel)]="item[column]" maxlength="128" rows="2"></textarea>
+                                        <md-hint align="end">{{Comments.value.length}} / 128</md-hint>
+                                    </md-form-field>
+                                </md-cell>
+                            </ng-container>
+
+                            <!-- Date -->
+                            <ng-container *ngSwitchCase="'Date'">
+                                <md-cell *mdCellDef="let item" fxFlex="150px">
+                                    <md-form-field fxLayout>
+                                        <input fxFlex="100px" name="{{column + item.RowNum.toString()}}" mdInput [mdDatepicker]="datepicker" placeholder="{{'commonLabels.' + column | translate}}"
+                                            [(ngModel)]="item[column]">
+                                        <md-datepicker-toggle mdSuffix [for]="datepicker"></md-datepicker-toggle>
+                                        <md-datepicker #datepicker></md-datepicker>
+                                    </md-form-field>
+                                </md-cell>
+                            </ng-container>
+
+                            <!-- Dialog input -->
+                            <ng-container *ngSwitchCase="'DialogInput'">
+                                <md-cell *mdCellDef="let item" fxFlex="150px">
+                                    <div fxLayout fxLayoutAlign="space-between center">
+                                        <span>
+                                        <u>{{'commonLabels.Option' | translate}} 1</u>: {{item.DialogOptions.Option1}}
+                                        <br>
+                                        <u>{{'commonLabels.Quantity' | translate}}</u>: {{item.DialogOptions.OptionQuantity}}
+                                        <br>
+                                        <u>{{'commonLabels.Option' | translate}} 2</u>: {{item.DialogOptions.Option2}}                                        
+                                        </span>
+                                        <button *ngIf="item[column]" md-icon-button title="{{'commonLabels.dialogcontent' | translate}}" color="primary" (click)="showDialog(item)">
+                                            <md-icon class="md-24" aria-label="menu">menu</md-icon>
+                                        </button>
+                                    </div>
+                                </md-cell>
+                            </ng-container>
+
+                            <!-- RowNum -->
+                            <ng-container *ngSwitchDefault>
+                                <md-cell *mdCellDef="let item" fxFlex="150px"> {{item[column]}} </md-cell>
+                            </ng-container>
+                        </ng-container>
+
+                    </ng-container>
+                    <md-header-row *mdHeaderRowDef="columns"></md-header-row>
+                    <md-row *mdRowDef="let row; columns: columns;"></md-row>
+                </md-table>
+                <!-- ============================== Table End ============================== -->
+            </div>
+
+            <section fxLayout.lt-sm="column" fxLayoutAlign="end center" fxLayoutGap="10px">
+                <button md-button color="accent" [routerLink]="['/home']" ngAutofocus>{{'commonLabels.cancel' | translate}}</button>
+                <button md-raised-button color="primary" type="submit">{{'commonLabels.save' | translate}}</button>
+            </section>
+        </form>
+    </md-card>
+</div>

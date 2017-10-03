@@ -1,0 +1,26 @@
+{
+    "commonLabels": {
+        "rows": "Rows",
+        "add": "Add new row",
+        "remove": "Remove last row",
+        "reset": "Reset table",
+        "RowNum": "Row#",
+        "Quantity": "Quantity",
+        "quantityRequired": "Quantity is <strong>required</strong>",
+        "Required": "Required",
+        "Justification": "Justification",
+        "justificationRequired": "Justification is <strong>required</strong>",
+        "justificationMin": "Justification must be at least <strong>10</strong> characters long",        
+        "Comments": "Comments",
+        "Date": "Date",
+        "DialogInput": "Dialog Input",
+        "Option": "Option",
+        "dialogcontent": "dialog content",
+        "dialogInputFor": "Dialog Input for Row#:",
+        "cancel": "Cancel",
+        "save": "Save",
+        "maxRows": "You have reached to maximum rows",
+        "minRows": "You have reached to minimum rows",
+        "gotit": "Got it!"
+    }
+}

@@ -1,0 +1,29 @@
+<header color="accent" md-dialog-title>{{'commonLabels.dialogInputFor' | translate}} <strong>{{data.name}}</strong></header>
+<form #fmDialog="ngForm" (ngSubmit)="submitActions(fmDialog, data.dialogOptions)" novalidate>
+  <div md-dialog-content style="height:180px;" fxLayout="column" fxLayoutGap="10px">
+    <md-checkbox name="Option1" color="primary" [(ngModel)]="data.dialogOptions.Option1" #Option1="ngModel" (change)="resetQuantity(Option1, data.dialogOptions)">
+      {{'commonLabels.Option' | translate}} 1
+    </md-checkbox>
+
+    <ng-container *ngIf="data.dialogOptions.Option1">
+      <md-form-field>
+        <input mdInput type="number" placeholder="{{'commonLabels.Quantity' | translate}}" [required]="data.dialogOptions.Option1" 
+            class="form-control" name="OptionQuantity" 
+            [(ngModel)]="data.dialogOptions.OptionQuantity" #OptionQuantity="ngModel">
+      </md-form-field>                  
+      <div *ngIf="OptionQuantity.invalid && (OptionQuantity.dirty || OptionQuantity.touched || fmDialog.submitted)" class="validation">
+        <span *ngIf="OptionQuantity.errors.required" 
+          [innerHTML]="'commonLabels.quantityRequired' | translate">
+        </span>
+      </div>
+    </ng-container>
+
+    <md-checkbox name="Option2" #Option2 color="primary" [(ngModel)]="data.dialogOptions.Option2" Option2="ngModel">
+      {{'commonLabels.Option' | translate}} 2
+    </md-checkbox>
+  </div>
+<div md-dialog-actions>
+   <button type="submit" (click)="this.action = 'Submit'" md-raised-button color="primary" tabindex="1">Ok</button>    
+  <button md-button color="accent" (click)="this.action = 'NoClick'" tabindex="-1">Cancel</button>
+</div>
+</form>

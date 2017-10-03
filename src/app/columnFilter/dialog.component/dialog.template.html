@@ -1,0 +1,44 @@
+<fieldset>
+    <legend>{{data.filter.property}}: </legend>
+<form #fmDialog="ngForm" [formGroup]="dialogFormGroup" (ngSubmit)="submitActions(fmDialog, data.filter)" novalidate>
+      <div md-dialog-content fxLayout="column">
+        <!-- simple search field with autocomplete choices and no form control -->
+        <!--  <md-form-field>
+        <input type="search" mdInput placeholder="filter for: {{data.filter.property}}" 
+        required (blur)="data.filter.value = data.filter.value.toString().trim()" 
+          class="form-control" name="filter"
+          [(ngModel)]="data.filter.value" #filter="ngModel">
+      </md-form-field>
+      <div *ngIf="filter.invalid && (filter.dirty || filter.touched || fmDialog.submitted)" class="validation">
+        <span *ngIf="filter.errors.required">
+          Filter text is <strong>required</strong>
+        </span>
+      </div>  -->
+
+      <!-- adv. search with autocomplete choices and form control based approach -->
+        <md-form-field>
+          <input type="search" aria-label="filter" 
+            class="form-control" [formControl]="dialogFormGroup.controls['filterControl']"  
+            [mdAutocomplete]="auto" [(ngModel)]="data.filter.value" 
+            (blur)="data.filter.value = data.filter.value.toString().trim()" 
+            mdInput required>
+          <md-autocomplete #auto="mdAutocomplete">
+            <md-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{ option }}
+            </md-option>
+          </md-autocomplete>          
+        </md-form-field>
+        <div *ngIf="dialogFormGroup.controls['filterControl'].invalid && (dialogFormGroup.controls['filterControl'].dirty || dialogFormGroup.controls['filterControl'].touched || fmDialog.submitted)" 
+          class="validation">
+          <span *ngIf="dialogFormGroup.controls['filterControl'].hasError('required')">
+            Filter text is <strong>required</strong>
+          </span>
+        </div> 
+      </div>
+      <div md-dialog-actions>
+        <button type="submit" (click)="action = 'Apply'" md-raised-button color="primary" tabindex="1" class="z-depth-2">Apply</button>
+        <button *ngIf="dialogFormGroup.controls['filterControl'].value && dialogFormGroup.controls['filterControl'].value.length > 0" (click)="action = 'Remove'" md-button color="accent">Remove</button>
+        <button md-button color="accent" (click)="action = 'NoClick'" tabindex="-1">Cancel</button>
+      </div>
+    </form>
+</fieldset>

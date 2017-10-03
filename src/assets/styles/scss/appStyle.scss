@@ -1,0 +1,197 @@
+@import "appTheme";
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';  
+@import '/node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+@include mat-core(); 
+// Add global styles to this file that will cascade like normal Css
+
+$font-stack: Roboto, Arial, sans-serif;
+
+html, body {
+      height:100%;
+      margin:0;
+      font-family: $font-stack;
+}
+
+md-card, section, md-cell, md-header-cell {
+  margin:4px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 600px;
+}
+
+ .tableContainer {
+  min-width: 300px;
+} 
+
+.mat-sort-header-container {
+  display: flex;
+  align-items: center;
+}
+
+.mat-chip:hover {
+  background-color: silver !important;  
+}
+
+.chipSelected {
+  background-color: silver !important;  
+}
+
+.clearAllChips {
+  color: lightcoral;
+}
+
+.clearAllChips:hover {
+  color: red;
+}
+
+.filter {
+  color: mat-color($primary, 800);
+}
+
+.validation {
+  font-size: smaller;
+  color: red;
+}
+
+.leftNavContainer {
+width: 100%;
+}
+
+.vertical-divider {  
+  border-top-width: 0;
+  border-right-width: 1px;
+  border-right-style: solid;
+  height: 100%;
+  border-color: mat-color($accent, 400);  
+}
+
+md-form-field div {
+  margin: 0;
+  padding: 0;
+}
+
+.navlist {       
+    background-color: mat-color($accent, 100); 
+    padding-top:0 !important;
+}
+
+.menulist {
+ background-color: mat-color($accent, 100); 
+}
+
+ .active {
+   background-color: mat-color($accent, 200);
+} 
+
+.navlist md-list-item a:focus {
+  font-weight:bold;    
+}
+
+.primary-light-bg {
+  background-color: mat-color($primary, lighter);
+}
+
+.primary-dark-bg {
+  background-color: mat-color($primary, 800);
+  color: white;
+}
+
+.accent-light-bg {
+  background-color: mat-color($accent, lighter);
+}
+
+.accent-dark-bg {
+  background-color: mat-color($accent, 800);
+  color: white;
+}
+
+.dark-bg {
+  background-color: slategray;
+  color: white;
+}
+
+.logoContainer {
+  padding: 5px;
+  border: 5px solid mat-color($accent, 400);
+}
+
+.titleContainer {
+  padding: 5px;
+  border: 5px solid mat-color($accent, 400);
+}
+
+.header {
+  background-color: mat-color($accent, 500);
+  color: white;
+  padding: 5px;
+  border: 5px solid mat-color($accent, 400);
+}
+
+.mat-elevation-z5 {
+   position: relative;
+   z-index: 2;
+}
+
+.footer {
+  background-color: #404040;  
+  color: white;
+}
+
+.relative {
+  position: relative;
+}
+
+.sideNavToggle {
+  position: absolute;
+  left: 4px;
+  top: 12px;
+}
+
+.lPading {
+ padding-left: 15px; 
+}
+
+.dialog-backdrop {
+  background: whitesmoke;
+}
+
+/* .dropDown {
+    max-height: 0;
+    transition: max-height 0.15s ease-out;
+    overflow: hidden;    
+}
+
+.dropDown:hover {
+    max-height: auto;
+    transition: max-height 0.75s ease-in;
+} */
+
+fieldset {
+  border-radius: 0px 0px 25px 25px;
+  padding: 10px;
+}
+
+/* Filter dialog drop-down effect animation styles */
+.mat-dialog-container {    
+    padding: 5px !important;
+    border-radius: 0px 0px 25px 25px !important;
+    height: 170px;
+    overflow: hidden !important;
+    -webkit-animation-name: DropDown; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 400ms; /* Safari 4.0 - 8.0 */
+    animation-name: DropDown;
+    animation-duration: 400ms;     
+}
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes DropDown {
+    from {height: 0px;}
+    to {height: 170px;}
+}
+/* Standard syntax */
+@keyframes DropDown {
+    from {height: 0px;}
+    to {height: 170px;}
+}

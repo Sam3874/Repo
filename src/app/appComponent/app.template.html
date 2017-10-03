@@ -1,0 +1,44 @@
+<md-grid-list cols="1" style="height:100%;" rowHeight="fit">
+  <md-grid-tile [colspan]="1">
+    <div fxFlexFill fxLayout="column">
+      <div fxFlex="70px" fxLayout class="header mat-elevation-z5">
+        <!-- menu list -->
+        <button md-icon-button [mdMenuTriggerFor]="menu" title="click here to open navigation menu" md-mini-fab class="sideNavToggle"
+          color="primary" *ngIf="showFab">
+            <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu" class="menulist">
+          <button *ngFor="let item of listItem" md-menu-item [routerLink]="[item.value]" routerLinkActive="active">
+            <md-icon *ngIf="item.text==='Home'">home</md-icon>
+            <md-icon *ngIf="item.text!=='Home'">dialpad</md-icon>
+            <span>  {{item.text}} </span>
+          </button>
+        </md-menu>
+        <!-- menu list -->
+        <div fxFlex="180px" fxLayoutAlign="center center"> LOGO </div>
+          <md-divider class="vertical-divider"></md-divider> 
+        <div fxLayoutAlign="center center" fxFlex="grow"> Application Title </div>
+      </div>      
+      <md-sidenav-container class="leftNavContainer" fxFlex="grow">
+        <!-- side nav -->
+        <md-sidenav #sidenav mode="side" opened="true">
+          <md-nav-list fxFlex="grow" class="navlist">
+            <ng-container *ngFor="let item of listItem">
+              <md-list-item [routerLink]="[item.value]" routerLinkActive="active">
+                {{item.text}}
+              </md-list-item>
+              <md-divider></md-divider>
+            </ng-container>
+          </md-nav-list>
+        </md-sidenav>
+        <!-- side nav -->
+
+        <router-outlet style="width:100%;"></router-outlet>
+
+      </md-sidenav-container>
+      <footer fxLayoutAlign="center center" class="footer" fxFlex="40px">
+        Footer
+      </footer>
+    </div>
+  </md-grid-tile>
+</md-grid-list>
