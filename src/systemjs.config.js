@@ -39,6 +39,7 @@
       '@angular/cdk/stepper': 'npm:@angular/cdk/bundles/cdk-stepper.umd.js',
       '@ngx-translate/core': 'npm:@ngx-translate/core/bundles/core.umd.js',
       '@ngx-translate/http-loader': 'npm:@ngx-translate/http-loader/bundles/http-loader.umd.js',
+      '@angular/http/testing': 'npm:@angular/http/bundles/http-testing.umd.js',
 
       // angular material bundles
       '@angular/material': 'npm:@angular/material/bundles/material.umd.js',

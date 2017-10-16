@@ -13,6 +13,11 @@ import { appTranslateModule } from '../common/factories/httpLoader.factory';
 import { AuthenticationService } from '../common/services/authentication.service/authentication.service';
 import { UserService } from '../common/services/user.service';
 
+// used to create fake backend
+import { fakeBackendProvider } from '../common/factories/fake-backend';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { BaseRequestOptions } from '@angular/http';
+
 import { homeComponent } from '../home/home.component';
 import { dynamicTableComponent } from '../dynamicTable/dynamicTable.component';
 import { dialogComponent } from "../dynamicTable/dialog.component/dialog.component"
@@ -68,6 +73,9 @@ import { appComponent } from '../appComponent/app.component';
         RegisterComponent
     ],
     providers: [
+        MockBackend,
+        BaseRequestOptions,
+        fakeBackendProvider,
         AuthGuard,
         messageService,
         AuthenticationService,
