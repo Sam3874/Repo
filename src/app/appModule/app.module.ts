@@ -10,6 +10,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { autofocusDirective } from '../common/directives/directive.autofocus';
 import { messageService } from '../common/services/message.service/message.service';
 import { appTranslateModule } from '../common/factories/httpLoader.factory';
+import { AuthenticationService } from '../common/services/authentication.service/authentication.service';
+import { UserService } from '../common/services/user.service';
 
 import { homeComponent } from '../home/home.component';
 import { dynamicTableComponent } from '../dynamicTable/dynamicTable.component';
@@ -19,6 +21,9 @@ import { dialogMultilingualComponent } from "../dynamicTable.multilingual/dialog
 import { dataTableComponent } from "../columnFilter/dataTable.component";
 import { dialogFilterComponent } from "../columnFilter/dialog.component/dialog.component"
 import { pageNotFoundComponent } from '../pageNotFound/pageNotFound.component';
+import { LoginComponent } from '../login/login.component';
+import { RegisterComponent } from '../register/register.component';
+import { AuthGuard } from '../common/guards/auth.guard';    
 import { routing } from '../router/router.component';
 import { appComponent } from '../appComponent/app.component';
 
@@ -45,7 +50,9 @@ import { appComponent } from '../appComponent/app.component';
         dialogMultilingualComponent, 
         dataTableComponent,
         dialogFilterComponent,
-        pageNotFoundComponent
+        pageNotFoundComponent,
+        LoginComponent,
+        RegisterComponent        
     ],
     entryComponents: [
         appComponent, 
@@ -56,10 +63,15 @@ import { appComponent } from '../appComponent/app.component';
         dialogMultilingualComponent, 
         dataTableComponent,
         dialogFilterComponent,
-        pageNotFoundComponent
+        pageNotFoundComponent,
+        LoginComponent,
+        RegisterComponent
     ],
     providers: [
-        messageService
+        AuthGuard,
+        messageService,
+        AuthenticationService,
+        UserService
     ],
     bootstrap: [
         appComponent
