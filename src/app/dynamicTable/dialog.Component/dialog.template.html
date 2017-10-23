@@ -1,16 +1,16 @@
-<header color="accent" md-dialog-title>Dialog Input for Row#: {{data.name}}</header>
+<header color="accent" mat-dialog-title>Dialog Input for Row#: {{data.name}}</header>
 <form #fmDialog="ngForm" (ngSubmit)="submitActions(fmDialog, data.dialogOptions)" novalidate>
-  <div md-dialog-content style="height:180px;" fxLayout="column" fxLayoutGap="10px">
-    <md-checkbox name="Option1" color="primary" [(ngModel)]="data.dialogOptions.Option1" #Option1="ngModel" (change)="resetQuantity(Option1, data.dialogOptions)">
+  <div mat-dialog-content style="height:180px;" fxLayout="column" fxLayoutGap="10px">
+    <mat-checkbox name="Option1" color="primary" [(ngModel)]="data.dialogOptions.Option1" #Option1="ngModel" (change)="resetQuantity(Option1, data.dialogOptions)">
       Option 1
-    </md-checkbox>
+    </mat-checkbox>
 
     <ng-container *ngIf="data.dialogOptions.Option1">
-      <md-form-field>
-        <input mdInput type="number" placeholder="Quantity" [required]="data.dialogOptions.Option1" 
+      <mat-form-field>
+        <input matInput type="number" placeholder="Quantity" [required]="data.dialogOptions.Option1" 
             class="form-control" name="OptionQuantity" 
             [(ngModel)]="data.dialogOptions.OptionQuantity" #OptionQuantity="ngModel">
-      </md-form-field>                  
+      </mat-form-field>                  
       <div *ngIf="OptionQuantity.invalid && (OptionQuantity.dirty || OptionQuantity.touched || fmDialog.submitted)" class="validation">
         <span *ngIf="OptionQuantity.errors.required">
               Quantity is <strong>required</strong>
@@ -18,12 +18,12 @@
       </div>
     </ng-container>
 
-    <md-checkbox name="Option2" #Option2 color="primary" [(ngModel)]="data.dialogOptions.Option2" Option2="ngModel">
+    <mat-checkbox name="Option2" #Option2 color="primary" [(ngModel)]="data.dialogOptions.Option2" Option2="ngModel">
       Option 2
-    </md-checkbox>
+    </mat-checkbox>
   </div>
-<div md-dialog-actions>
-   <button type="submit" (click)="this.action = 'Submit'" md-raised-button color="primary" tabindex="1">Ok</button>    
-  <button md-button color="accent" (click)="this.action = 'NoClick'" tabindex="-1">Cancel</button>
+<div mat-dialog-actions>
+   <button type="submit" (click)="this.action = 'Submit'" mat-raised-button color="primary" tabindex="1">Ok</button>    
+  <button mat-button color="accent" (click)="this.action = 'NoClick'" tabindex="-1">Cancel</button>
 </div>
 </form>

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -9,8 +9,8 @@ import { NgForm } from '@angular/forms';
 export class dialogComponent {
     refQuantity: any;
     action: string;
-    constructor(public dialogRef: MdDialogRef<dialogComponent>,
-        @Inject(MD_DIALOG_DATA) public data: any) {
+    constructor(public dialogRef: MatDialogRef<dialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
         this.refQuantity = data.dialogOptions.OptionQuantity;
     }
 

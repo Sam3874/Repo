@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, ViewChild, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 //import { RouteParams} from '@angular/router';
-import { MdSidenav } from "@angular/material";
+import { MatSidenav } from "@angular/material";
 import { listItemProvider } from "./app.listItemProvider";
 
 @Component({
@@ -29,7 +29,7 @@ export class appComponent {
 //    console.log(RouterStateSnapshot.url);    
   }
 
-  @ViewChild('sidenav') sidenav: MdSidenav;
+  @ViewChild('sidenav') sidenav: MatSidenav;
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     if (event.target.innerWidth < 500) {

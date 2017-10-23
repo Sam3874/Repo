@@ -4,7 +4,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { TranslateService } from '@ngx-translate/core';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { HttpLoaderFactory } from "../common/factories/httpLoader.factory"
 
@@ -32,9 +32,9 @@ export class dynamicTableMultilingualComponent {
   db: localDatabase;
 
   dialogOptions: dialogOptionsProvider;
-  dialogRef: MdDialogRef<dialogMultilingualComponent>;
+  dialogRef: MatDialogRef<dialogMultilingualComponent>;
 
-  constructor(private messageService: messageService, public dialog: MdDialog, private translate: TranslateService) {    //private route: ActivatedRoute  
+  constructor(private messageService: messageService, public dialog: MatDialog, private translate: TranslateService) {    //private route: ActivatedRoute  
     //console.log(this.translate.currentLang);
     this.selectedLanguage = this.languages[0].code;
     translate.use(this.selectedLanguage);

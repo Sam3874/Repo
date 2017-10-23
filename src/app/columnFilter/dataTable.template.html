@@ -1,73 +1,73 @@
 <div fxLayout="column" style="width:100%;">
-    <md-toolbar color="primary">{{name}}</md-toolbar>
-    <md-card>
+    <mat-toolbar color="primary">{{name}}</mat-toolbar>
+    <mat-card>
         <form name="fmDynamicTable" novalidate ng-cloak>
             <div class="tableContainer" fxLayout="column">
                 <!-- ============== Chips ============= -->
                 <div fxLayout *ngIf="dialogFilters.length > 0" fxLayoutAlign=" center">
-                  <md-chip-list mdPrefix #chipList>
-                    <md-chip *ngFor="let filter of dialogFilters" [selectable]="true"
+                  <mat-chip-list matPrefix #chipList>
+                    <mat-chip *ngFor="let filter of dialogFilters" [selectable]="true"
                         [removable]="true" (remove)="updateFilter({action: 'Remove', filter: filter})"
                         (click)="showDialog(filter.property)" 
                         [ngClass]="{'chipSelected': filter.property === selectedChipProperty}" >
                             <strong>{{ filter.value }}</strong> <i>&nbsp;({{filter.label}})</i>
-                        <md-icon mdChipRemove>cancel</md-icon>
-                    </md-chip>
-                  </md-chip-list>
-                  <button md-icon-button title="clear column filters" 
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                  </mat-chip-list>
+                  <button mat-icon-button title="clear column filters" 
                     (click)="clearDialogFilter()" *ngIf="dialogFilters.length > 1">
-                    <md-icon class="md-24 clearAllChips" aria-label="clearcolfilters">delete_sweep</md-icon>
+                    <mat-icon class="mat-24 clearAllChips" aria-label="clearcolfilters">delete_sweep</mat-icon>
                   </button>
                 </div>
                 <!-- ============== Global Filter ============= -->
                 <div fxLayout>
-                    <md-form-field floatPlaceholder="never" fxFlex>
-                        <input mdInput #filter placeholder="Search" fxFlex="98" [disabled]="dialogFilters.length > 0" ngAutofocus>
-                        <button md-icon-button title="clear search" color="warn" fxFlex
+                    <mat-form-field floatPlaceholder="never" fxFlex>
+                        <input matInput #filter placeholder="Search" fxFlex="98" [disabled]="dialogFilters.length > 0" ngAutofocus>
+                        <button mat-icon-button title="clear search" color="warn" fxFlex
                             (click)="clearFilter()" *ngIf="filter.value.length > 0">
-                            <md-icon class="md-24" aria-label="add">clear</md-icon>
+                            <mat-icon class="mat-24" aria-label="add">clear</mat-icon>
                         </button>
-                    </md-form-field>
+                    </mat-form-field>
                 </div>
                 <!-- ============================== Table Start ============================== -->
-                <md-table #table [dataSource]="data" mdSort>
-                    <ng-container *ngFor="let column of columns" mdColumnDef="{{column}}">
+                <mat-table #table [dataSource]="data" matSort>
+                    <ng-container *ngFor="let column of columns" matColumnDef="{{column}}">
                         <!-- ============== columns ============= -->
-                        <md-header-cell *mdHeaderCellDef fxLayout>
+                        <mat-header-cell *matHeaderCellDef fxLayout>
                             <!-- ============== column Filter ============= -->
-                            <button md-icon-button title="click to apply column based filter"
+                            <button mat-icon-button title="click to apply column based filter"
                                 (click)="showDialog(column)" *ngIf="data">
-                            <md-icon class="md-24" [ngClass]="{'filter': isFilterApplied(dialogFilters, column)}" aria-label="add">search</md-icon>
+                            <mat-icon class="mat-24" [ngClass]="{'filter': isFilterApplied(dialogFilters, column)}" aria-label="add">search</mat-icon>
                             </button>
                             <!-- ============== column header ============= -->
-                            <div title="click to sort" md-sort-header>
+                            <div title="click to sort" mat-sort-header>
                                 <h4> {{column}} </h4>
                             </div>
-                        </md-header-cell>
+                        </mat-header-cell>
                         <!-- ============== Rows ============= -->
                         <div *ngIf="column === 'Date'; else elseBlock">
-                            <md-cell class="lPading" *mdCellDef="let item"> {{ item[column] | date}} </md-cell>
+                            <mat-cell class="lPading" *matCellDef="let item"> {{ item[column] | date}} </mat-cell>
                         </div>
                         <ng-template #elseBlock>
-                            <md-cell class="lPading" *mdCellDef="let item"> {{ item[column] }} </md-cell>
+                            <mat-cell class="lPading" *matCellDef="let item"> {{ item[column] }} </mat-cell>
                         </ng-template>
                     </ng-container>
-                    <md-header-row *mdHeaderRowDef="columns"></md-header-row>
-                    <md-row *mdRowDef="let row; columns: columns;"></md-row>
-                </md-table>
+                    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+                </mat-table>
                 <!-- ============== Paginator ============= -->
-                <md-paginator #paginator 
+                <mat-paginator #paginator 
                               [length]="db.templateData.length" 
                               [pageIndex]="0" 
                               [pageSize]="10" 
                               [pageSizeOptions]="[5, 10, 25, 100]">
-                </md-paginator>
+                </mat-paginator>
                 <!-- ============================== Table End ============================== -->
             </div>
             <section fxLayout.lt-sm="column" fxLayoutAlign="end center" fxLayoutGap="10px">
-                <button md-button color="accent" [routerLink]="['/home']">Cancel</button>
-                <button md-raised-button color="primary" type="submit" tabindex="1">Save</button>
+                <button mat-button color="accent" [routerLink]="['/home']">Cancel</button>
+                <button mat-raised-button color="primary" type="submit" tabindex="1">Save</button>
             </section>
         </form>
-    </md-card>
+    </mat-card>
 </div>

@@ -1,44 +1,44 @@
-<md-grid-list cols="1" style="height:100%;" rowHeight="fit">
-  <md-grid-tile [colspan]="1">
+<mat-grid-list cols="1" style="height:100%;" rowHeight="fit">
+  <mat-grid-tile [colspan]="1">
     <div fxFlexFill fxLayout="column">
       <div fxFlex="70px" fxLayout class="header mat-elevation-z5">
         <!-- menu list -->
-        <button md-icon-button [mdMenuTriggerFor]="menu" title="click here to open navigation menu" md-mini-fab class="sideNavToggle"
+        <button mat-icon-button [matMenuTriggerFor]="menu" title="click here to open navigation menu" mat-mini-fab class="sideNavToggle"
           color="primary" *ngIf="showFab">
-            <md-icon>more_vert</md-icon>
+            <mat-icon>more_vert</mat-icon>
         </button>
-        <md-menu #menu="mdMenu" class="menulist">
-          <button *ngFor="let item of listItem" md-menu-item [routerLink]="[item.value]" routerLinkActive="active">
-            <md-icon *ngIf="item.text==='Home'">home</md-icon>
-            <md-icon *ngIf="item.text!=='Home'">dialpad</md-icon>
+        <mat-menu #menu="matMenu" class="menulist">
+          <button *ngFor="let item of listItem" mat-menu-item [routerLink]="[item.value]" routerLinkActive="active">
+            <mat-icon *ngIf="item.text==='Home'">home</mat-icon>
+            <mat-icon *ngIf="item.text!=='Home'">dialpad</mat-icon>
             <span>  {{item.text}} </span>
           </button>
-        </md-menu>
+        </mat-menu>
         <!-- menu list -->
         <div fxFlex="180px" fxLayoutAlign="center center"> LOGO </div>
-          <md-divider class="vertical-divider"></md-divider> 
+          <mat-divider class="vertical-divider"></mat-divider> 
         <div fxLayoutAlign="center center" fxFlex="grow"> Application Title </div>
       </div>      
-      <md-sidenav-container class="leftNavContainer" fxFlex="grow">
+      <mat-sidenav-container class="leftNavContainer" fxFlex="grow">
         <!-- side nav -->
-        <md-sidenav #sidenav mode="side" opened="true">
-          <md-nav-list fxFlex="grow" class="navlist">
+        <mat-sidenav #sidenav mode="side" opened="true">
+          <mat-nav-list fxFlex="grow" class="navlist">
             <ng-container *ngFor="let item of listItem">
-              <md-list-item [routerLink]="[item.value]" routerLinkActive="active">
+              <mat-list-item [routerLink]="[item.value]" routerLinkActive="active">
                 {{item.text}}
-              </md-list-item>
-              <md-divider></md-divider>
+              </mat-list-item>
+              <mat-divider></mat-divider>
             </ng-container>
-          </md-nav-list>
-        </md-sidenav>
+          </mat-nav-list>
+        </mat-sidenav>
         <!-- side nav -->
 
         <router-outlet style="width:100%;"></router-outlet>
 
-      </md-sidenav-container>
+      </mat-sidenav-container>
       <footer fxLayoutAlign="center center" class="footer" fxFlex="40px">
         Footer
       </footer>
     </div>
-  </md-grid-tile>
-</md-grid-list>
+  </mat-grid-tile>
+</mat-grid-list>

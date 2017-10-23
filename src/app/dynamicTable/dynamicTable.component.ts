@@ -3,7 +3,7 @@ import { DataSource } from '@angular/cdk/collections';
 //import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { messageService } from '../common/services/message.service/message.service';
 import { contentProvider, dialogOptionsProvider } from "./contentProvider";
@@ -23,9 +23,9 @@ export class dynamicTableComponent {
   db: localDatabase;
 
   dialogOptions: dialogOptionsProvider;
-  dialogRef: MdDialogRef<dialogComponent>;
+  dialogRef: MatDialogRef<dialogComponent>;
 
-  constructor(private messageService: messageService, public dialog: MdDialog) {    //private route: ActivatedRoute  
+  constructor(private messageService: messageService, public dialog: MatDialog) {    //private route: ActivatedRoute  
     this.columns = ["RowNum", "Quantity", "Required", "Justification", "Comments", "Date", "DialogInput"];
     this.db = new localDatabase();
     this.data = this.db.data;

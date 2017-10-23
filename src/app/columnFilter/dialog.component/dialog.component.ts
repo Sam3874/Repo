@@ -1,5 +1,5 @@
 import { Component, Inject, Input } from '@angular/core';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -31,8 +31,8 @@ export class dialogFilterComponent {
     filteredOptions: Observable<string[]>;
     dialogFormGroup: FormGroup;
 
-    constructor(fb: FormBuilder, public dialogRef: MdDialogRef<dialogFilterComponent>,
-        @Inject(MD_DIALOG_DATA) public data: any) {
+    constructor(fb: FormBuilder, public dialogRef: MatDialogRef<dialogFilterComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
         this.dialogFormGroup = fb.group({
             'filterControl': [null, Validators.required]
         });

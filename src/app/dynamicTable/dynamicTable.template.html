@@ -1,53 +1,53 @@
 <div fxLayout="column" style="width:100%;">
-    <md-toolbar color="primary">{{name}}</md-toolbar>
-    <md-card>
+    <mat-toolbar color="primary">{{name}}</mat-toolbar>
+    <mat-card>
         <form name="fmDynamicTable" novalidate ng-cloak>
             <div fxLayout="column">
                 <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center">
                     <h5>Rows : {{db.templateData.length}}</h5>
                     <section fxLayoutGap="10px">
-                        <button md-mini-fab title="Add new row" color="primary" (click)="updateTable('add')"><md-icon class="md-24" aria-label="add">add</md-icon></button>
-                        <button md-mini-fab color="white" title="Remove last row" type="submit" (click)="updateTable('remove')"><md-icon class="md-24" aria-label="remove">remove</md-icon></button>
-                        <button md-mini-fab color="white" title="Reset table" type="submit" (click)="updateTable('reset')"><md-icon class="md-24" aria-label="refresh">refresh</md-icon></button>
+                        <button mat-mini-fab title="Add new row" color="primary" (click)="updateTable('add')"><mat-icon class="mat-24" aria-label="add">add</mat-icon></button>
+                        <button mat-mini-fab color="white" title="Remove last row" type="submit" (click)="updateTable('remove')"><mat-icon class="mat-24" aria-label="remove">remove</mat-icon></button>
+                        <button mat-mini-fab color="white" title="Reset table" type="submit" (click)="updateTable('reset')"><mat-icon class="mat-24" aria-label="refresh">refresh</mat-icon></button>
                     </section>
                 </div>
                 <!-- ============================== Table Start ============================== -->
-                <md-table #table [dataSource]="data">
-                    <ng-container *ngFor="let column of columns" mdColumnDef="{{column}}">
+                <mat-table #table [dataSource]="data">
+                    <ng-container *ngFor="let column of columns" matColumnDef="{{column}}">
                         <!-- ============== columns ============= -->
-                        <md-header-cell *mdHeaderCellDef fxFlex="150px">
+                        <mat-header-cell *matHeaderCellDef fxFlex="150px">
                             <h4> {{column}} </h4>
-                        </md-header-cell>
+                        </mat-header-cell>
                         <!-- ============== rows ============= -->
                         <ng-container [ngSwitch]="column">
                             <!-- Quantity -->
                             <ng-container *ngSwitchCase="'Quantity'">
-                                <md-cell *mdCellDef="let item" fxFlex="150px">
-                                    <md-form-field fxLayout fxFlex="70px">
-                                        <input type="number" mdInput name="{{column + item.RowNum.toString()}}" placeholder="{{column}}" [(ngModel)]="item[column]">
-                                    </md-form-field>
-                                </md-cell>
+                                <mat-cell *matCellDef="let item" fxFlex="150px">
+                                    <mat-form-field fxLayout fxFlex="70px">
+                                        <input type="number" matInput name="{{column + item.RowNum.toString()}}" placeholder="{{column}}" [(ngModel)]="item[column]">
+                                    </mat-form-field>
+                                </mat-cell>
                             </ng-container>
 
                             <!-- Required -->
                             <ng-container *ngSwitchCase="'Required'">
-                                <md-cell *mdCellDef="let item" fxFlex="150px">
-                                    <md-slide-toggle color="primary" name="{{column + item.RowNum.toString()}}" [(ngModel)]="item[column]" #Required="ngModel" 
+                                <mat-cell *matCellDef="let item" fxFlex="150px">
+                                    <mat-slide-toggle color="primary" name="{{column + item.RowNum.toString()}}" [(ngModel)]="item[column]" #Required="ngModel" 
                                         (change)="item.Justification = ''" >
-                                    </md-slide-toggle>
-                                </md-cell>
+                                    </mat-slide-toggle>
+                                </mat-cell>
                             </ng-container>
 
                             <!-- Justification -->
                             <ng-container *ngSwitchCase="'Justification'">
-                                <md-cell *mdCellDef="let item" fxFlex="150px">                                    
+                                <mat-cell *matCellDef="let item" fxFlex="150px">                                    
                                     <div fxLayout="column">                                      
-                                            <md-form-field fxLayout>
-                                                <textarea fxFlex="150px" mdInput name="{{column + item.RowNum.toString()}}" placeholder="{{column}}"
+                                            <mat-form-field fxLayout>
+                                                <textarea fxFlex="150px" matInput name="{{column + item.RowNum.toString()}}" placeholder="{{column}}"
                                                     #Justification="ngModel" [(ngModel)]="item[column]" maxlength="128" minlength="10" rows="2"
                                                     [disabled]="!item.Required" [required]="item.Required">
                                                 </textarea>
-                                            </md-form-field>
+                                            </mat-form-field>
                                             <div *ngIf="Justification.invalid && (Justification.dirty || Justification.touched)" class="validation">
                                                 <span *ngIf="Justification.errors.required">
                                                     Name is <strong>required</strong>
@@ -57,35 +57,35 @@
                                                 </span>                                            
                                             </div>
                                         </div>
-                                </md-cell>
+                                </mat-cell>
                             </ng-container>
 
                             <!-- Comments -->
                             <ng-container *ngSwitchCase="'Comments'">
-                                <md-cell *mdCellDef="let item" fxFlex="150px">
-                                    <md-form-field fxLayout>
-                                        <textarea fxFlex="150px" mdInput name="{{column + item.RowNum.toString()}}" #Comments id="{{Comments + item.RowNum}}" placeholder="{{column}}"
+                                <mat-cell *matCellDef="let item" fxFlex="150px">
+                                    <mat-form-field fxLayout>
+                                        <textarea fxFlex="150px" matInput name="{{column + item.RowNum.toString()}}" #Comments id="{{Comments + item.RowNum}}" placeholder="{{column}}"
                                             [(ngModel)]="item[column]" maxlength="128" rows="2"></textarea>
-                                        <md-hint align="end">{{Comments.value.length}} / 128</md-hint>
-                                    </md-form-field>
-                                </md-cell>
+                                        <mat-hint align="end">{{Comments.value.length}} / 128</mat-hint>
+                                    </mat-form-field>
+                                </mat-cell>
                             </ng-container>
 
                             <!-- Date -->
                             <ng-container *ngSwitchCase="'Date'">
-                                <md-cell *mdCellDef="let item" fxFlex="150px">
-                                    <md-form-field fxLayout>
-                                        <input fxFlex="100px" name="{{column + item.RowNum.toString()}}" mdInput [mdDatepicker]="datepicker" placeholder="{{column}}"
+                                <mat-cell *matCellDef="let item" fxFlex="150px">
+                                    <mat-form-field fxLayout>
+                                        <input fxFlex="100px" name="{{column + item.RowNum.toString()}}" matInput [matDatepicker]="datepicker" placeholder="{{column}}"
                                             [(ngModel)]="item[column]">
-                                        <md-datepicker-toggle mdSuffix [for]="datepicker"></md-datepicker-toggle>
-                                        <md-datepicker #datepicker></md-datepicker>
-                                    </md-form-field>
-                                </md-cell>
+                                        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #datepicker></mat-datepicker>
+                                    </mat-form-field>
+                                </mat-cell>
                             </ng-container>
 
                             <!-- Dialog input -->
                             <ng-container *ngSwitchCase="'DialogInput'">
-                                <md-cell *mdCellDef="let item" fxFlex="150px">
+                                <mat-cell *matCellDef="let item" fxFlex="150px">
                                     <div fxLayout fxLayoutAlign="space-between center">
                                         <span>
                                         <u>Option 1</u>: {{item.DialogOptions.Option1}}
@@ -94,30 +94,30 @@
                                         <br>
                                         <u>Option 2</u>: {{item.DialogOptions.Option2}}                                        
                                         </span>
-                                        <button *ngIf="item[column]" md-icon-button title="dialog content" color="primary" (click)="showDialog(item)">
-                                            <md-icon class="md-24" aria-label="menu">menu</md-icon>
+                                        <button *ngIf="item[column]" mat-icon-button title="dialog content" color="primary" (click)="showDialog(item)">
+                                            <mat-icon class="mat-24" aria-label="menu">menu</mat-icon>
                                         </button>
                                     </div>
-                                </md-cell>
+                                </mat-cell>
                             </ng-container>
 
                             <!-- RowNum -->
                             <ng-container *ngSwitchDefault>
-                                <md-cell *mdCellDef="let item" fxFlex="150px"> {{item[column]}} </md-cell>
+                                <mat-cell *matCellDef="let item" fxFlex="150px"> {{item[column]}} </mat-cell>
                             </ng-container>
                         </ng-container>
 
                     </ng-container>
-                    <md-header-row *mdHeaderRowDef="columns"></md-header-row>
-                    <md-row *mdRowDef="let row; columns: columns;"></md-row>
-                </md-table>
+                    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+                </mat-table>
                 <!-- ============================== Table End ============================== -->
             </div>
 
             <section fxLayout.lt-sm="column" fxLayoutAlign="end center" fxLayoutGap="10px">
-                <button md-button color="accent" [routerLink]="['/home']" ngAutofocus>Cancel</button>
-                <button md-raised-button color="primary" type="submit">Save</button>
+                <button mat-button color="accent" [routerLink]="['/home']" ngAutofocus>Cancel</button>
+                <button mat-raised-button color="primary" type="submit">Save</button>
             </section>
         </form>
-    </md-card>
+    </mat-card>
 </div>

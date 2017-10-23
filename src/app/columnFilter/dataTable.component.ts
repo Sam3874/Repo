@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
-import { MdSort, MdPaginator } from '@angular/material';
+import { MatSort, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/of';
@@ -13,7 +13,7 @@ import 'rxjs/add/observable/fromEvent';
 
 import { messageService } from '../common/services/message.service/message.service';
 import { contentProvider } from "./contentProvider";
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { dialogFilterComponent } from "./dialog.component/dialog.component"
 
 @Component({
@@ -26,16 +26,16 @@ export class dataTableComponent {
   tempItem: contentProvider;
   db: localDatabase;
   data: localDataSource | null;
-  dialogRef: MdDialogRef<dialogFilterComponent>;
+  dialogRef: MatDialogRef<dialogFilterComponent>;
   dialogFilters: dialogFilterProvider[] = [];
   dialogFilter: dialogFilterProvider;
   selectedChipProperty: string = "";
 
-  @ViewChild(MdSort) sort: MdSort;
-  @ViewChild(MdPaginator) paginator: MdPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('filter') filter: ElementRef;
 
-  constructor(private messageService: messageService, public dialog: MdDialog) {    //private route: ActivatedRoute  
+  constructor(private messageService: messageService, public dialog: MatDialog) {    //private route: ActivatedRoute  
     this.columns = ["RowNum", "Quantity", "Required", "Justification", "Comments", "Date", "DialogInput"];
     this.db = new localDatabase();
   }
@@ -219,7 +219,7 @@ export class localDataSource extends DataSource<any> {
   get filter(): dialogFilterProvider[] { return this._filterChange.value; }
   set filter(filter: dialogFilterProvider[]) { this._filterChange.next(filter); }
 
-  constructor(private _db: localDatabase, private _sort: MdSort, private _paginator: MdPaginator) {
+  constructor(private _db: localDatabase, private _sort: MatSort, private _paginator: MatPaginator) {
     super();
   }
   /* connect(): Observable<contentProvider[]> {
