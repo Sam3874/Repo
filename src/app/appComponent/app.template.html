@@ -1,6 +1,7 @@
 <mat-grid-list cols="1" style="height:100%;" rowHeight="fit">
   <mat-grid-tile [colspan]="1">
     <div fxFlexFill fxLayout="column">
+      <!-- header -->
       <div fxFlex="70px" fxLayout class="header mat-elevation-z5">
         <!-- menu list -->
         <button mat-icon-button [matMenuTriggerFor]="menu" title="click here to open navigation menu" mat-mini-fab class="sideNavToggle"
@@ -18,7 +19,10 @@
         <div fxFlex="180px" fxLayoutAlign="center center"> LOGO </div>
           <mat-divider class="vertical-divider"></mat-divider> 
         <div fxLayoutAlign="center center" fxFlex="grow"> Application Title </div>
-      </div>      
+        <div *ngIf="login"> Welcome '{{ loginuser.firstName }}' <button (click)="logout()">Logout</button></div>
+       <!--  <div *ngIf="!login"><button>Login</button></div> -->
+      </div>    
+      <!-- header -->  
       <mat-sidenav-container class="leftNavContainer" fxFlex="grow">
         <!-- side nav -->
         <mat-sidenav #sidenav mode="side" opened="true">
@@ -33,7 +37,7 @@
         </mat-sidenav>
         <!-- side nav -->
 
-        <router-outlet style="width:100%;"></router-outlet>
+        <router-outlet style="width:100%;" (loginSuccess)="getLoginUser($event)"></router-outlet>
 
       </mat-sidenav-container>
       <footer fxLayoutAlign="center center" class="footer" fxFlex="40px">

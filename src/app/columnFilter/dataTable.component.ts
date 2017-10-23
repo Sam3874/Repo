@@ -22,7 +22,10 @@ import { dialogFilterComponent } from "./dialog.component/dialog.component"
 })
 export class dataTableComponent {
   name: string = 'Data Table with Column Filter';
-  columns: string[];
+  columnKeys: string[];
+  //columns: any[];
+  columnMap: any[];
+  columnLabels: any;
   tempItem: contentProvider;
   db: localDatabase;
   data: localDataSource | null;
@@ -36,12 +39,35 @@ export class dataTableComponent {
   @ViewChild('filter') filter: ElementRef;
 
   constructor(private messageService: messageService, public dialog: MatDialog) {    //private route: ActivatedRoute  
-    this.columns = ["RowNum", "Quantity", "Required", "Justification", "Comments", "Date", "DialogInput"];
+    //this.columns = ["RowNum", "Quantity", "Required", "Justification", "Comments", "Date", "DialogInput"];
+    this.columnKeys = ["col1", "col2", "col3", "col4", "col5", "col6", "col7"];
+    this.columnMap = [
+      { columnKey: "col1", labelKey: "label1",  dataKey: "RowNum", isDate: false},
+      { columnKey: "col2", labelKey: "label2",  dataKey: "Quantity", isDate: false},
+      { columnKey: "col3", labelKey: "label3",  dataKey: "Required", isDate: false},
+      { columnKey: "col4", labelKey: "label4",  dataKey: "Justification", isDate: false},
+      { columnKey: "col5", labelKey: "label5",  dataKey: "Comments", isDate: false},
+      { columnKey: "col6", labelKey: "label6",  dataKey: "Date", isDate: true},
+      { columnKey: "col7", labelKey: "label7",  dataKey: "DialogInput", isDate: false}
+    ];
+
+  // this will be input from component
+    this.columnLabels = { 
+      label1: "Row Num",
+      label2: "Quantity",
+      label3: "Required",
+      label4: "Justification",
+      label5: "Comments",
+      label6: "Date",
+      label7: "Dialog Input" 
+    };
+    
+    //this will be input from component
     this.db = new localDatabase();
   }
 
   ngOnInit() {
-    this.data = new localDataSource(this.db, this.sort, this.paginator);
+    this.data = new localDataSource(this.db, this.sort, this.paginator, this);
 
     //initial sort options
     this.sort.active = "RowNum";
@@ -58,6 +84,58 @@ export class dataTableComponent {
         });
     }
   }
+
+  getColumnValue(key) {
+    let flagContinue: boolean = true;
+    let value:string;
+    for (let item of this.columnMap) {
+      if (flagContinue) { 
+        if (item.columnKey === key) {
+          value = this.columnLabels[item.labelKey];
+          flagContinue = false;
+        }
+      }
+    }
+    return (value || key);
+  }
+
+  getDataValue(data, key) {
+    let flagContinue: boolean = true;
+    let value:any;
+    for (let item of this.columnMap) {
+      if (flagContinue) { 
+        if (item.columnKey === key) {
+          value = item.isDate? new Date(data[item.dataKey]).toDateString().substring(4): String(data[item.dataKey]);
+          flagContinue = false;
+        }
+      }
+    }
+    //value = this.isDate(String(value)) ? new Date(value): String(value);
+    return ((value) || key);
+  }
+
+  getMapKey(key) {
+    let flagContinue: boolean = true;
+    let value:string;
+    for (let item of this.columnMap) {
+      if (flagContinue) { 
+        if (item.columnKey === key) {
+          value = item.dataKey;
+          flagContinue = false;
+        }
+      }
+    }
+    return (value || key);
+  }
+
+  /* isDate(date) {  
+    let parsedDate = Date.parse(date);    
+    //console.log(date);
+    console.log(date, !isNaN(parsedDate));
+    // You want to check again for !isNaN(parsedDate) here because Dates can be converted
+    // to numbers, but a failed Date parse will not.
+    return (isNaN(date) && !isNaN(parsedDate)) ? true : false;
+  } */
 
   updateFilter(result) {
     this.updateDialogFilter(result);  //update model with dialog input
@@ -219,7 +297,7 @@ export class localDataSource extends DataSource<any> {
   get filter(): dialogFilterProvider[] { return this._filterChange.value; }
   set filter(filter: dialogFilterProvider[]) { this._filterChange.next(filter); }
 
-  constructor(private _db: localDatabase, private _sort: MatSort, private _paginator: MatPaginator) {
+  constructor(private _db: localDatabase, private _sort: MatSort, private _paginator: MatPaginator, private _dtc: dataTableComponent) {
     super();
   }
   /* connect(): Observable<contentProvider[]> {
@@ -297,7 +375,7 @@ export class localDataSource extends DataSource<any> {
   }
 
   /** Returns a sorted copy of the database data. */
-  getSortedData(dbdata): contentProvider[] {
+  getSortedData(dbdata): contentProvider[] { 
     const data = dbdata.slice();
     if (!this._sort.active || this._sort.direction == '') { return data; }
 
@@ -311,7 +389,9 @@ export class localDataSource extends DataSource<any> {
        case 'progress': [propertyA, propertyB] = [a.progress, b.progress]; break;
        case 'color': [propertyA, propertyB] = [a.color, b.color]; break;
      }  */
-      [propertyA, propertyB] = [a[this._sort.active], b[this._sort.active]];
+    //  [propertyA, propertyB] = [a[this._sort.active], b[this._sort.active]];
+    [propertyA, propertyB] = [a[this._dtc.getMapKey(this._sort.active)], b[this._dtc.getMapKey(this._sort.active)]];
+    
 
       let valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       let valueB = isNaN(+propertyB) ? propertyB : +propertyB;

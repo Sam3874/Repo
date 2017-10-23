@@ -31,29 +31,24 @@
                 </div>
                 <!-- ============================== Table Start ============================== -->
                 <mat-table #table [dataSource]="data" matSort>
-                    <ng-container *ngFor="let column of columns" matColumnDef="{{column}}">
+                    <ng-container *ngFor="let column of columnKeys" matColumnDef="{{column}}">
                         <!-- ============== columns ============= -->
                         <mat-header-cell *matHeaderCellDef fxLayout>
                             <!-- ============== column Filter ============= -->
                             <button mat-icon-button title="click to apply column based filter"
-                                (click)="showDialog(column)" *ngIf="data">
-                            <mat-icon class="mat-24" [ngClass]="{'filter': isFilterApplied(dialogFilters, column)}" aria-label="add">search</mat-icon>
+                                (click)="showDialog(getMapKey(column))" *ngIf="data">
+                            <mat-icon class="mat-24" [ngClass]="{'filter': isFilterApplied(dialogFilters, getMapKey(column))}" aria-label="add">search</mat-icon>
                             </button>
                             <!-- ============== column header ============= -->
                             <div title="click to sort" mat-sort-header>
-                                <h4> {{column}} </h4>
+                                <h4> {{ getColumnValue(column) }} </h4>
                             </div>
                         </mat-header-cell>
                         <!-- ============== Rows ============= -->
-                        <div *ngIf="column === 'Date'; else elseBlock">
-                            <mat-cell class="lPading" *matCellDef="let item"> {{ item[column] | date}} </mat-cell>
-                        </div>
-                        <ng-template #elseBlock>
-                            <mat-cell class="lPading" *matCellDef="let item"> {{ item[column] }} </mat-cell>
-                        </ng-template>
+                            <mat-cell class="lPading" *matCellDef="let item"> {{ getDataValue(item, column) }} </mat-cell>
                     </ng-container>
-                    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+                    <mat-header-row *matHeaderRowDef="columnKeys"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: columnKeys;"></mat-row>
                 </mat-table>
                 <!-- ============== Paginator ============= -->
                 <mat-paginator #paginator 
