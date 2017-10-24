@@ -1,4 +1,5 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSort, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
@@ -11,63 +12,46 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
 
-import { messageService } from '../common/services/message.service/message.service';
-import { contentProvider } from "./contentProvider";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { messageService } from '../../services/message.service/message.service';
 import { dialogFilterComponent } from "./dialog.component/dialog.component"
 
 @Component({
-  selector: 'app',
-  templateUrl: './dataTable.template.html'
+  selector: 'data-grid',
+  templateUrl: './datagrid.template.html'
 })
-export class dataTableComponent {
-  name: string = 'Data Table with Column Filter';
-  columnKeys: string[];
-  //columns: any[];
-  columnMap: any[];
-  columnLabels: any;
-  tempItem: contentProvider;
-  db: localDatabase;
+export class datagridComponent {
+  name: string = 'Data Grid with Column Filter';
+  
   data: localDataSource | null;
   dialogRef: MatDialogRef<dialogFilterComponent>;
   dialogFilters: dialogFilterProvider[] = [];
   dialogFilter: dialogFilterProvider;
   selectedChipProperty: string = "";
 
+  @Input()
+  columnKeys: string[];
+
+  @Input()
+  columnMap: any[];
+
+  @Input()
+  columnLabels: any;
+
+  @Input()
+  dbdata: any[];
+
+  @Input()
+  config: any;
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('filter') filter: ElementRef;
 
   constructor(private messageService: messageService, public dialog: MatDialog) {    //private route: ActivatedRoute  
-    //this.columns = ["RowNum", "Quantity", "Required", "Justification", "Comments", "Date", "DialogInput"];
-    this.columnKeys = ["col1", "col2", "col3", "col4", "col5", "col6", "col7"];
-    this.columnMap = [
-      { columnKey: "col1", labelKey: "label1",  dataKey: "RowNum", isDate: false},
-      { columnKey: "col2", labelKey: "label2",  dataKey: "Quantity", isDate: false},
-      { columnKey: "col3", labelKey: "label3",  dataKey: "Required", isDate: false},
-      { columnKey: "col4", labelKey: "label4",  dataKey: "Justification", isDate: false},
-      { columnKey: "col5", labelKey: "label5",  dataKey: "Comments", isDate: false},
-      { columnKey: "col6", labelKey: "label6",  dataKey: "Date", isDate: true},
-      { columnKey: "col7", labelKey: "label7",  dataKey: "DialogInput", isDate: false}
-    ];
-
-  // this will be input from component
-    this.columnLabels = { 
-      label1: "Row Num",
-      label2: "Quantity",
-      label3: "Required",
-      label4: "Justification",
-      label5: "Comments",
-      label6: "Date",
-      label7: "Dialog Input" 
-    };
-    
-    //this will be input from component
-    this.db = new localDatabase();
   }
 
   ngOnInit() {
-    this.data = new localDataSource(this.db, this.sort, this.paginator, this);
+    this.data = new localDataSource(this.dbdata, this.sort, this.paginator, this);
 
     //initial sort options
     this.sort.active = "RowNum";
@@ -137,6 +121,19 @@ export class dataTableComponent {
     return (isNaN(date) && !isNaN(parsedDate)) ? true : false;
   } */
 
+  getColumnData(property) {
+    //return this.templateData.map ((item) => { return (item[property]) });  //all values
+    let options: string[];
+    switch (property) {
+      case "Date":
+        options = Array.from(new Set(this.dbdata.map((item) => { return (new Date(item[property]).toDateString().substring(4)) })));  //unique values
+        break;
+      default:
+        options = Array.from(new Set(this.dbdata.map((item) => { return (String(item[property])) })));  //unique values
+    }
+    return options;
+  }
+
   updateFilter(result) {
     this.updateDialogFilter(result);  //update model with dialog input
     this.applyDialogFilter(this.dialogFilters);
@@ -170,7 +167,7 @@ export class dataTableComponent {
       width: dialogWidth + 'px',
       position: position,
       backdropClass: 'dialog-backdrop',
-      data: { filter: this.dialogFilter, options: this.db.getColumnData(column) }
+      data: { filter: this.dialogFilter, options: this.getColumnData(column) }
     });
 
     this.dialogRef.afterClosed().subscribe(result => {
@@ -259,54 +256,20 @@ export class dialogFilterProvider {
   constructor(public label: string, public property: string, public value: string) { }
 }
 
-export class localDatabase {
-  item: contentProvider;
-  templateData: contentProvider[] = [];
-  flag: boolean = true;
-  day: number = 1;
-  constructor() {
-    for (let i = 1; i <= 200; i++) {
-      this.item = new contentProvider(i, "Quantity " + i, this.flag, "Test Justification " + i, "Test Comments" + i, new Date().setDate(this.day), !this.flag);
-      this.templateData.push(this.item);
-      this.dataChange.next(this.templateData);
-      this.flag = !this.flag;
-      this.day >= 30 ? this.day = 1 : this.day++;
-    }
-  }
-
-  getColumnData(property) {
-    //return this.templateData.map ((item) => { return (item[property]) });  //all values
-    let options: string[];
-    switch (property) {
-      case "Date":
-        options = Array.from(new Set(this.templateData.map((item) => { return (new Date(item[property]).toDateString().substring(4)) })));  //unique values
-        break;
-      default:
-        options = Array.from(new Set(this.templateData.map((item) => { return (String(item[property])) })));  //unique values
-    }
-    return options;
-  }
-
-  /** Stream that emits whenever the data has been modified. */
-  dataChange: BehaviorSubject<contentProvider[]> = new BehaviorSubject<contentProvider[]>([]);
-  get data(): contentProvider[] { return this.dataChange.value; }
-}
-
 export class localDataSource extends DataSource<any> {
   _filterChange = new BehaviorSubject<dialogFilterProvider[]>([new dialogFilterProvider('', 'ALL', '')]);  //initially ALL filter
   get filter(): dialogFilterProvider[] { return this._filterChange.value; }
   set filter(filter: dialogFilterProvider[]) { this._filterChange.next(filter); }
 
-  constructor(private _db: localDatabase, private _sort: MatSort, private _paginator: MatPaginator, private _dtc: dataTableComponent) {
+  constructor(private _dbdata: any[], private _sort: MatSort, private _paginator: MatPaginator, private _dtc: datagridComponent) {
     super();
   }
   /* connect(): Observable<contentProvider[]> {
     return Observable.of(this.data);
   } */
 
-  connect(): Observable<contentProvider[]> {
+  connect(): Observable<any[]> {
     const displayDataChanges = [
-      this._db.dataChange,
       this._filterChange,
       this._sort.sortChange,
       this._paginator.page,
@@ -314,7 +277,7 @@ export class localDataSource extends DataSource<any> {
 
     return Observable.merge(...displayDataChanges).map(() => {
       //apply filter
-      const filteredData = this.getFilteredData(this._db.data).slice();
+      const filteredData = this.getFilteredData(this._dbdata).slice();
 
       //sort data
       const sortedData = this.getSortedData(filteredData).slice();
@@ -326,8 +289,8 @@ export class localDataSource extends DataSource<any> {
   }
 
   //filter function
-  getFilteredData(dbdata): contentProvider[] {
-    return dbdata.slice().filter((item: contentProvider) => {
+  getFilteredData(dbdata): any[] {
+    return dbdata.slice().filter((item: any) => {
       if (this.filter && this.filter.length > 0 && this.filter[0].property === "ALL") {
         return this.getGlobalFilterData(item, this.filter);
       } else {
@@ -375,7 +338,7 @@ export class localDataSource extends DataSource<any> {
   }
 
   /** Returns a sorted copy of the database data. */
-  getSortedData(dbdata): contentProvider[] { 
+  getSortedData(dbdata): any[] { 
     const data = dbdata.slice();
     if (!this._sort.active || this._sort.direction == '') { return data; }
 

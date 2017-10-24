@@ -23,8 +23,10 @@ import { dynamicTableComponent } from '../dynamicTable/dynamicTable.component';
 import { dialogComponent } from "../dynamicTable/dialog.component/dialog.component"
 import { dynamicTableMultilingualComponent } from '../dynamicTable.multilingual/dynamicTable.component';
 import { dialogMultilingualComponent } from "../dynamicTable.multilingual/dialog.component/dialog.component";
-import { dataTableComponent } from "../columnFilter/dataTable.component";
-import { dialogFilterComponent } from "../columnFilter/dialog.component/dialog.component"
+import { globalFilterComponent } from "../globalFilter/globalFilter.component";
+import { columnFilterComponent } from "../columnFilter/columnFilter.component";
+import { datagridComponent } from "../common/components/datagrid/datagrid.component";
+import { dialogFilterComponent } from "../common/components/datagrid/dialog.component/dialog.component"
 import { pageNotFoundComponent } from '../pageNotFound/pageNotFound.component';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
@@ -52,8 +54,10 @@ import { appComponent } from '../appComponent/app.component';
         dynamicTableComponent, 
         dialogComponent, 
         dynamicTableMultilingualComponent, 
-        dialogMultilingualComponent, 
-        dataTableComponent,
+        dialogMultilingualComponent,
+        globalFilterComponent, 
+        columnFilterComponent,
+        datagridComponent,
         dialogFilterComponent,
         pageNotFoundComponent,
         LoginComponent,
@@ -65,8 +69,10 @@ import { appComponent } from '../appComponent/app.component';
         dynamicTableComponent, 
         dialogComponent, 
         dynamicTableMultilingualComponent, 
-        dialogMultilingualComponent, 
-        dataTableComponent,
+        dialogMultilingualComponent,
+        globalFilterComponent, 
+        columnFilterComponent,
+        datagridComponent,
         dialogFilterComponent,
         pageNotFoundComponent,
         LoginComponent,

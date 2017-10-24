@@ -13,6 +13,8 @@ html, body {
       font-family: $font-stack;
 }
 
+div[hidden] { display: none !important; }
+
 mat-card, section, mat-cell, mat-header-cell {
   margin:4px;
 }

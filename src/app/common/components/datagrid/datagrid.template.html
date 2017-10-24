@@ -1,7 +1,3 @@
-<div fxLayout="column" style="width:100%;">
-    <mat-toolbar color="primary">{{name}}</mat-toolbar>
-    <mat-card>
-        <form name="fmDynamicTable" novalidate ng-cloak>
             <div class="tableContainer" fxLayout="column">
                 <!-- ============== Chips ============= -->
                 <div fxLayout *ngIf="dialogFilters.length > 0" fxLayoutAlign=" center">
@@ -20,7 +16,7 @@
                   </button>
                 </div>
                 <!-- ============== Global Filter ============= -->
-                <div fxLayout>
+                <div [hidden]="!config.showGlobalFilter" fxLayout>
                     <mat-form-field floatPlaceholder="never" fxFlex>
                         <input matInput #filter placeholder="Search" fxFlex="98" [disabled]="dialogFilters.length > 0" ngAutofocus>
                         <button mat-icon-button title="clear search" color="warn" fxFlex
@@ -35,8 +31,8 @@
                         <!-- ============== columns ============= -->
                         <mat-header-cell *matHeaderCellDef fxLayout>
                             <!-- ============== column Filter ============= -->
-                            <button mat-icon-button title="click to apply column based filter"
-                                (click)="showDialog(getMapKey(column))" *ngIf="data">
+                            <button *ngIf="config.showColumnFilter && data" mat-icon-button title="click to apply column based filter"
+                                (click)="showDialog(getMapKey(column))">
                             <mat-icon class="mat-24" [ngClass]="{'filter': isFilterApplied(dialogFilters, getMapKey(column))}" aria-label="add">search</mat-icon>
                             </button>
                             <!-- ============== column header ============= -->
@@ -52,17 +48,10 @@
                 </mat-table>
                 <!-- ============== Paginator ============= -->
                 <mat-paginator #paginator 
-                              [length]="db.templateData.length" 
+                              [length]="dbdata.length" 
                               [pageIndex]="0" 
                               [pageSize]="10" 
                               [pageSizeOptions]="[5, 10, 25, 100]">
                 </mat-paginator>
                 <!-- ============================== Table End ============================== -->
             </div>
-            <section fxLayout.lt-sm="column" fxLayoutAlign="end center" fxLayoutGap="10px">
-                <button mat-button color="accent" [routerLink]="['/home']">Cancel</button>
-                <button mat-raised-button color="primary" type="submit" tabindex="1">Save</button>
-            </section>
-        </form>
-    </mat-card>
-</div>

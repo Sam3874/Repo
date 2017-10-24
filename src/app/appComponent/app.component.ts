@@ -22,9 +22,9 @@ export class appComponent {
     this.listItem = [
       new listItemProvider(1, 'home', '/home', 'Home', 'homeComponent'),
       new listItemProvider(2, 'dynamicTable', '/dynamicTable', '1. Dynamic Table', 'dynamicTableComponent'),
-      new listItemProvider(3, 'multilingual', '/multilingual', '2. Multilingual Support', ''),      
-      new listItemProvider(4, 'columnFilter', '/columnFilter', '3. Data Table', ''),
-      new listItemProvider(5, 'dataList', '/dataList', '4. Nested Data Sets', ''),      
+      new listItemProvider(3, 'multilingual', '/multilingual', '2. Multilingual Support', 'dynamicTableMultilingualComponent'),      
+      new listItemProvider(4, 'globalFilter', '/globalFilter', '3. Data Grid 1', 'globalFilterComponent'),
+      new listItemProvider(5, 'columnFilter', '/columnFilter', '4. Data Grid 2', 'columnFilterComponent')
     ];    
     //console.log(RouterStateSnapshot.url);
     this.loginuser = localStorage.getItem('currentUser');

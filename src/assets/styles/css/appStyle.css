@@ -1966,6 +1966,9 @@ html, body {
   margin: 0;
   font-family: Roboto, Arial, sans-serif; }
 
+div[hidden] {
+  display: none !important; }
+
 mat-card, section, mat-cell, mat-header-cell {
   margin: 4px; }
 

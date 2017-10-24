@@ -1,0 +1,19 @@
+<div fxLayout="column" style="width:100%;">
+    <mat-toolbar color="primary">{{name}}</mat-toolbar>
+    <mat-card>
+        <form name="fmDynamicTable" novalidate ng-cloak>
+         <data-grid
+            [columnKeys] = "columnKeys"
+            [columnMap] = "columnMap"
+            [columnLabels] = "columnLabels"
+            [dbdata] = "db.templateData"
+            [config] = "config" >
+                loading data grid..
+         </data-grid>
+            <section fxLayout.lt-sm="column" fxLayoutAlign="end center" fxLayoutGap="10px">
+                <button mat-button color="accent" [routerLink]="['/home']">Cancel</button>
+                <button mat-raised-button color="primary" type="submit" tabindex="1">Save</button>
+            </section>
+        </form>
+    </mat-card>
+</div>
