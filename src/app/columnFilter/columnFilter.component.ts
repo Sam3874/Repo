@@ -25,13 +25,13 @@ export class columnFilterComponent {
     };
     this.columnKeys = ["col1", "col2", "col3", "col4", "col5", "col6", "col7"];
     this.columnMap = [
-      { columnKey: "col1", labelKey: "label1",  dataKey: "RowNum", isDate: false},
-      { columnKey: "col2", labelKey: "label2",  dataKey: "Quantity", isDate: false},
-      { columnKey: "col3", labelKey: "label3",  dataKey: "Required", isDate: false},
-      { columnKey: "col4", labelKey: "label4",  dataKey: "Justification", isDate: false},
-      { columnKey: "col5", labelKey: "label5",  dataKey: "Comments", isDate: false},
-      { columnKey: "col6", labelKey: "label6",  dataKey: "Date", isDate: true},
-      { columnKey: "col7", labelKey: "label7",  dataKey: "DialogInput", isDate: false}
+      { columnKey: "col1", labelKey: "label1",  dataKey: "RowNum", isDate: false, isSort: true, isColumnFilter: false },
+      { columnKey: "col2", labelKey: "label2",  dataKey: "Quantity", isDate: false, isSort: true, isColumnFilter: true },
+      { columnKey: "col3", labelKey: "label3",  dataKey: "Required", isDate: false, isSort: true, isColumnFilter: true },
+      { columnKey: "col4", labelKey: "label4",  dataKey: "Justification", isDate: false, isSort: true, isColumnFilter: true },
+      { columnKey: "col5", labelKey: "label5",  dataKey: "Comments", isDate: false, isSort: true, isColumnFilter: true },
+      { columnKey: "col6", labelKey: "label6",  dataKey: "Date", isDate: true, isSort: true, isColumnFilter: true },
+      { columnKey: "col7", labelKey: "label7",  dataKey: "DialogInput", isDate: false, isSort: true, isColumnFilter: true }
     ];
 
   // this will be input from component

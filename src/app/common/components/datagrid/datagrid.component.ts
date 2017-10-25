@@ -54,9 +54,9 @@ export class datagridComponent {
     this.data = new localDataSource(this.dbdata, this.sort, this.paginator, this);
 
     //initial sort options
-    this.sort.active = "RowNum";
-    this.sort.direction = "asc";
-
+      this.sort.active = "RowNum";
+      this.sort.direction = "asc";
+        
     //Filter configuration
     if (this.filter && this.filter.nativeElement) {
       Observable.fromEvent(this.filter.nativeElement, 'keyup')
@@ -98,13 +98,13 @@ export class datagridComponent {
     return ((value) || key);
   }
 
-  getMapKey(key) {
+  getMapKey(key, mapkey) {
     let flagContinue: boolean = true;
-    let value:string;
+    let value:any;
     for (let item of this.columnMap) {
       if (flagContinue) { 
         if (item.columnKey === key) {
-          value = item.dataKey;
+          value = item[mapkey];
           flagContinue = false;
         }
       }
@@ -353,7 +353,7 @@ export class localDataSource extends DataSource<any> {
        case 'color': [propertyA, propertyB] = [a.color, b.color]; break;
      }  */
     //  [propertyA, propertyB] = [a[this._sort.active], b[this._sort.active]];
-    [propertyA, propertyB] = [a[this._dtc.getMapKey(this._sort.active)], b[this._dtc.getMapKey(this._sort.active)]];
+    [propertyA, propertyB] = [a[this._dtc.getMapKey(this._sort.active, 'dataKey')], b[this._dtc.getMapKey(this._sort.active, 'dataKey')]];
     
 
       let valueA = isNaN(+propertyA) ? propertyA : +propertyA;

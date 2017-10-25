@@ -1,57 +1,58 @@
-            <div class="tableContainer" fxLayout="column">
-                <!-- ============== Chips ============= -->
-                <div fxLayout *ngIf="dialogFilters.length > 0" fxLayoutAlign=" center">
-                  <mat-chip-list matPrefix #chipList>
-                    <mat-chip *ngFor="let filter of dialogFilters" [selectable]="true"
-                        [removable]="true" (remove)="updateFilter({action: 'Remove', filter: filter})"
-                        (click)="showDialog(filter.property)" 
-                        [ngClass]="{'chipSelected': filter.property === selectedChipProperty}" >
-                            <strong>{{ filter.value }}</strong> <i>&nbsp;({{filter.label}})</i>
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip>
-                  </mat-chip-list>
-                  <button mat-icon-button title="clear column filters" 
-                    (click)="clearDialogFilter()" *ngIf="dialogFilters.length > 1">
-                    <mat-icon class="mat-24 clearAllChips" aria-label="clearcolfilters">delete_sweep</mat-icon>
-                  </button>
-                </div>
-                <!-- ============== Global Filter ============= -->
-                <div [hidden]="!config.showGlobalFilter" fxLayout>
-                    <mat-form-field floatPlaceholder="never" fxFlex>
-                        <input matInput #filter placeholder="Search" fxFlex="98" [disabled]="dialogFilters.length > 0" ngAutofocus>
-                        <button mat-icon-button title="clear search" color="warn" fxFlex
-                            (click)="clearFilter()" *ngIf="filter.value.length > 0">
-                            <mat-icon class="mat-24" aria-label="add">clear</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </div>
-                <!-- ============================== Table Start ============================== -->
-                <mat-table #table [dataSource]="data" matSort>
-                    <ng-container *ngFor="let column of columnKeys" matColumnDef="{{column}}">
-                        <!-- ============== columns ============= -->
-                        <mat-header-cell *matHeaderCellDef fxLayout>
-                            <!-- ============== column Filter ============= -->
-                            <button *ngIf="config.showColumnFilter && data" mat-icon-button title="click to apply column based filter"
-                                (click)="showDialog(getMapKey(column))">
-                            <mat-icon class="mat-24" [ngClass]="{'filter': isFilterApplied(dialogFilters, getMapKey(column))}" aria-label="add">search</mat-icon>
-                            </button>
-                            <!-- ============== column header ============= -->
-                            <div title="click to sort" mat-sort-header>
-                                <h4> {{ getColumnValue(column) }} </h4>
-                            </div>
-                        </mat-header-cell>
-                        <!-- ============== Rows ============= -->
-                            <mat-cell class="lPading" *matCellDef="let item"> {{ getDataValue(item, column) }} </mat-cell>
-                    </ng-container>
-                    <mat-header-row *matHeaderRowDef="columnKeys"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: columnKeys;"></mat-row>
-                </mat-table>
-                <!-- ============== Paginator ============= -->
-                <mat-paginator #paginator 
-                              [length]="dbdata.length" 
-                              [pageIndex]="0" 
-                              [pageSize]="10" 
-                              [pageSizeOptions]="[5, 10, 25, 100]">
-                </mat-paginator>
-                <!-- ============================== Table End ============================== -->
-            </div>
+<div class="tableContainer" fxLayout="column">
+    <!-- ============== Chips ============= -->
+    <div fxLayout *ngIf="dialogFilters.length > 0" fxLayoutAlign=" center">
+        <mat-chip-list matPrefix #chipList>
+            <mat-chip *ngFor="let filter of dialogFilters" [selectable]="true" [removable]="true" (remove)="updateFilter({action: 'Remove', filter: filter})"
+                (click)="showDialog(filter.property)" [ngClass]="{'chipSelected': filter.property === selectedChipProperty}">
+                <strong>{{ filter.value }}</strong>
+                <i>&nbsp;({{filter.label}})</i>
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+        <button mat-icon-button title="clear column filters" (click)="clearDialogFilter()" *ngIf="dialogFilters.length > 1">
+            <mat-icon class="mat-24 clearAllChips" aria-label="clearcolfilters">delete_sweep</mat-icon>
+        </button>
+    </div>
+    <!-- ============== Global Filter ============= -->
+    <div [hidden]="!config.showGlobalFilter" fxLayout>
+        <mat-form-field floatPlaceholder="never" fxFlex>
+            <input matInput #filter placeholder="Search" fxFlex="98" [disabled]="dialogFilters.length > 0" ngAutofocus>
+            <button mat-icon-button title="clear search" color="warn" fxFlex (click)="clearFilter()" *ngIf="filter.value.length > 0">
+                <mat-icon class="mat-24" aria-label="add">clear</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <!-- ============================== Table Start ============================== -->
+        <mat-table #table [dataSource]="data" matSort>
+            <ng-container *ngFor="let column of columnKeys" matColumnDef="{{column}}">
+                <!-- ============== columns ============= -->
+                <mat-header-cell *matHeaderCellDef fxLayout>
+                    <!-- ============== column Filter ============= -->
+                    <button *ngIf="config.showColumnFilter && (getMapKey(column, 'isColumnFilter')===true) && data" mat-icon-button title="click to apply column based filter" (click)="showDialog(getMapKey(column, 'dataKey'))">
+                        <mat-icon class="mat-24" [ngClass]="{'filter': isFilterApplied(dialogFilters, getMapKey(column, 'dataKey'))}" aria-label="add">search</mat-icon>
+                    </button>
+                    <!-- ============== column header ============= -->
+                    <div *ngIf="getMapKey(column, 'isSort')===true; then SortableHeader else noSortableHeader"></div>
+                    <ng-template #SortableHeader>
+                        <div title="click to sort" mat-sort-header>
+                            <h4> {{ getColumnValue(column) }} </h4>
+                        </div>
+                    </ng-template>
+                    <ng-template #noSortableHeader>
+                        <div>
+                            <h4> {{ getColumnValue(column) }} </h4>
+                        </div>
+                    </ng-template>
+                </mat-header-cell>
+                <!-- ============== Rows ============= -->
+                <mat-cell class="lPading" *matCellDef="let item"> {{ getDataValue(item, column) }} </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="columnKeys"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: columnKeys;"></mat-row>
+        </mat-table>
+   
+    <!-- ============== Paginator ============= -->
+    <mat-paginator #paginator [length]="dbdata.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+    <!-- ============================== Table End ============================== -->
+</div>
